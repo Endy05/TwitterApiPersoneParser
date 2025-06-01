@@ -1,21 +1,29 @@
 import requests
 import json
 from typing import List, Dict, Any
+from datetime import datetime
 from config import data
+from data_rotator import DataRotator
 
 class TweetHandler:
-    def __init__(self):
+    def __init__(self, config_data):
         self.url = "https://x.com/i/api/graphql/qRZZ3tIWQobwfvBFTnToOA/UserTweets"
         self.last_tweet_id = None
-        self.processed_tweets = set()  
-        self.max_tweets_per_check = 3  
+        self.initialized = False
+        self.max_tweets_per_check = 3
+        self.processed_tweets = set()
 
         # Get configuration from config
-        self.variables = data['request_data']['profile']['variables_userTweets']
-        self.features = data['request_data']['profile']['features_userTweets']
-        self.headers = data['request_data']['profile']['headers']
-        self.cookies = data['request_data']['profile']['cookies']
+        self.variables = config_data['request_data']['profile']['variables_userTweets']
+        self.features = config_data['request_data']['profile']['features_userTweets']
         
+        # Create data rotator for auth data
+        auth_data_list = [
+            config_data['request_data']['profile']['list_changeData']['data_1'],
+            config_data['request_data']['profile']['list_changeData']['data_2']
+        ]
+        self.data_rotator = DataRotator(auth_data_list)
+
         self.field_toggles = {
             "withArticlePlainText": False
         }
@@ -27,9 +35,16 @@ class TweetHandler:
         }
 
     def get_latest_tweets(self) -> List[Dict[str, Any]]:
+        """Thread-safe method for getting latest tweets"""
         try:
-            response = requests.get(self.url, headers=self.headers, params=self.params, cookies=self.cookies)
+            current_time = datetime.now().strftime("%H:%M:%S")
+            auth_data, auth_id = self.data_rotator.get_next()
+            
+            response = requests.get(self.url, headers=auth_data['headers'], 
+                                 cookies=auth_data['cookies'], params=self.params)
+            
             if response.status_code == 200:
+                print(f"[{current_time}] Tweets received ({auth_id})")
                 tweets_data = response.json()
                 instructions = tweets_data['data']['user']['result']['timeline']['timeline']['instructions']
                 entries = []
@@ -39,26 +54,40 @@ class TweetHandler:
                         entries = instruction['entries']
                         break
                 
-                tweet_list = []
+                new_tweets = []
                 for entry in entries:
                     if 'tweet' in entry['entryId'].lower():
                         try:
                             tweet_data = entry['content']['itemContent']['tweet_results']['result']
                             tweet_id = tweet_data['rest_id']
-                            tweet_text = tweet_data['legacy']['full_text']
-                            tweet_link = f"https://twitter.com/andytrotw/status/{tweet_id}"
                             
-                            tweet_list.append({
-                                'id': tweet_id,
-                                'text': tweet_text,
-                                'link': tweet_link
-                            })
-                            print(f"Found tweet: {tweet_id}")
+                            # Ініціалізація last_tweet_id при першому запуску
+                            if not self.initialized:
+                                self.last_tweet_id = tweet_id
+                                self.initialized = True
+                                return []
+                            
+                            # Перевіряємо чи твіт новіший за останній відомий
+                            if self.last_tweet_id and int(tweet_id) > int(self.last_tweet_id):
+                                tweet_text = tweet_data['legacy']['full_text']
+                                tweet_link = f"https://twitter.com/andytrotw/status/{tweet_id}"
+                                
+                                new_tweets.append({
+                                    'id': tweet_id,
+                                    'text': tweet_text,
+                                    'link': tweet_link
+                                })
+                                
                         except (KeyError, TypeError) as e:
                             print(f"Error processing tweet: {e}")
                             continue
                 
-                return tweet_list
+                if new_tweets:
+                    # Оновлюємо last_tweet_id найновішим твітом
+                    self.last_tweet_id = new_tweets[0]['id']
+                    
+                return new_tweets
+                
             else:
                 print(f"Error getting tweets: {response.status_code}")
                 return []

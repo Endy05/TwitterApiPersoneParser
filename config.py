@@ -4,17 +4,20 @@ import os
 load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")  
+TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
+USER_ID = "1647171304192196610"
+SCREEN_NAME = "andytrotw"
+INTERVAL = 3
 
 data = {
     "request_data": {
         "profile": {
             "variables_userByScreenName" : {
-                "screen_name": "andytrotw"
+                "screen_name":  SCREEN_NAME
             },
 
             "variables_userTweets" : {
-                "userId": "1647171304192196610",
+                "userId": USER_ID,
                 "count": 20,
                 "includePromotedContent": True,
                 "withQuickPromoteEligibilityTweetFields": True,
@@ -70,22 +73,64 @@ data = {
                 "responsive_web_enhance_cards_enabled": False,
             }, 
     
-            "headers" : {
-                "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-                "Content-Type": "application/json",
-                "x-csrf-token": os.getenv("TWITTER_CSRF_TOKEN"),
-                "x-twitter-active-user": "yes",
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": "uk",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                "accept-language": "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7",
-                "referer": "https://x.com/"
-            },
+            "list_changeData" : {
+                "data_1" : {
+                    "headers" : {
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
+                        "Content-Type": "application/json",
+                        "x-csrf-token": os.getenv("TWITTER_CSRF_TOKEN"),
+                        "x-twitter-active-user": "yes",
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": "uk",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+                        "accept-language": "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "referer": "https://x.com/"
+                    },
 
-            "cookies" : {
-                "auth_token": os.getenv("TWITTER_AUTH_TOKEN"),
-                "ct0": os.getenv("TWITTER_CSRF_TOKEN"),
-                "guest_id": os.getenv("TWITTER_GUEST_ID"),
+                    "cookies" : {
+                        "auth_token": os.getenv("TWITTER_AUTH_TOKEN"),
+                        "ct0": os.getenv("TWITTER_CSRF_TOKEN"),
+                        "guest_id": os.getenv("TWITTER_GUEST_ID"),
+                    },
+                },
+                "data_2" : {
+                    "headers" : {
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
+                        "Content-Type": "application/json",
+                        "x-csrf-token": "64e4c9cd7585313b80d3abbbf565a5661a9dd09e69a64dcccb0e406340ae988d1b2522e3a0abe21a8b9ce1dd6a3d6bf577e015acc36043e15068c54cafe14c217cbf60948f4fb57592453f1bcef7111c",
+                        "x-twitter-active-user": "yes",
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": "uk",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+                        "accept-language": "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "referer": "https://x.com/"
+                    },
+
+                    "cookies" : {
+                        "auth_token": "6fe31d14251d275b878266c85e1a32f8402ffdbd",
+                        "ct0": "64e4c9cd7585313b80d3abbbf565a5661a9dd09e69a64dcccb0e406340ae988d1b2522e3a0abe21a8b9ce1dd6a3d6bf577e015acc36043e15068c54cafe14c217cbf60948f4fb57592453f1bcef7111c",
+                        "guest_id": "v1:3A174880487789877171",
+                    },
+                },
+                "data_3" : {
+                    "headers" : {
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
+                        "Content-Type": "application/json",
+                        "x-csrf-token": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
+                        "x-twitter-active-user": "yes",
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": "uk",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+                        "accept-language": "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "referer": "https://x.com/"
+                    },
+
+                    "cookies" : {
+                        "auth_token": "6de1191e6f33fbbca2482bd35942db8ce02b5758",
+                        "ct0": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
+                        "guest_id": "v1:3A174872376999050580",
+                    },
+                }
             }
         }
     }

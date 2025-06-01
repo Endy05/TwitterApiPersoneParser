@@ -1,14 +1,20 @@
 import requests
 import json
 from datetime import datetime
+from data_rotator import DataRotator
 
 class TwitterProfile:
     def __init__(self, config_data):
         self.url = "https://x.com/i/api/graphql/xWw45l6nX7DP2FKRyePXSw/UserByScreenName"
         self.variables = config_data['request_data']['profile']['variables_userByScreenName']
         self.features = config_data['request_data']['profile']['features_userByScreenName']
-        self.headers = config_data['request_data']['profile']['headers']
-        self.cookies = config_data['request_data']['profile']['cookies']
+        
+        # Create data rotator for auth data
+        auth_data_list = [
+            data for key, data in config_data['request_data']['profile']['list_changeData'].items()
+            if key.startswith('data_')
+        ]
+        self.data_rotator = DataRotator(auth_data_list)
         
         self.params = {
             "variables": json.dumps(self.variables),
@@ -21,12 +27,17 @@ class TwitterProfile:
             return url.replace('_normal.', '.')
         return url
 
-    async def check_profile(self):
+    def check_profile(self):
+        """Non-async version for thread usage"""
         try:
-            response = requests.get(self.url, headers=self.headers, cookies=self.cookies, params=self.params)
             current_time = datetime.now().strftime("%H:%M:%S")
+            auth_data, auth_id = self.data_rotator.get_next()
+            
+            response = requests.get(self.url, headers=auth_data['headers'], 
+                                 cookies=auth_data['cookies'], params=self.params)
             
             if response.ok:
+                print(f"[{current_time}] Profile received ({auth_id})")
                 data = response.json()
                 user = data["data"]["user"]["result"]
                 return {
