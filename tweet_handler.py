@@ -89,7 +89,7 @@ class TweetHandler:
                 return new_tweets
                 
             else:
-                print(f"Error getting tweets: {response.status_code}")
+                print(f"Error getting tweets: {response.status_code} ({auth_id})")
                 return []
         except Exception as e:
             print(f"Exception in get_latest_tweets: {e}")

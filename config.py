@@ -7,7 +7,7 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
 USER_ID = "1647171304192196610"
 SCREEN_NAME = "andytrotw"
-INTERVAL = 3
+INTERVAL = 2.5
 
 data = {
     "request_data": {

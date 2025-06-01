@@ -1,7 +1,6 @@
 import threading
 from queue import Queue
 from typing import Dict, Any, Callable
-import asyncio
 import time
 from datetime import datetime
 

@@ -16,8 +16,8 @@ async def main():
     thread_manager = ThreadManager()
 
     # Add workers to thread manager with correct method names
-    thread_manager.add_worker("tweets", tweet_handler.get_latest_tweets, interval=INTERVAL)
-    thread_manager.add_worker("profile", twitter_profile.check_profile, interval=INTERVAL)
+    thread_manager.add_worker("tweets", tweet_handler.get_latest_tweets, interval=3)
+    thread_manager.add_worker("profile", twitter_profile.check_profile, interval=1)
 
     print("Starting monitoring...")
     thread_manager.start()
