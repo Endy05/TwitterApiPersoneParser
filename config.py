@@ -1,2 +1,2 @@
-TELEGRAM_BOT_TOKEN = "7076042400:AAHi3JJLf4jVFen524LXPr6Vy-1oyqgn1RU"
-TELEGRAM_CHANNEL_ID = "@testwersn"  # Example: "@channelname" or "-100123456789"
+TELEGRAM_BOT_TOKEN = "token"
+TELEGRAM_CHANNEL_ID = "@test"  # Example: "@channelname" or "-100123456789"
