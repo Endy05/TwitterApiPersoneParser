@@ -19,8 +19,8 @@ class TweetHandler:
         
         # Create data rotator for auth data
         auth_data_list = [
-            config_data['request_data']['profile']['list_changeData']['data_1'],
-            config_data['request_data']['profile']['list_changeData']['data_2']
+            data for key, data in config_data['request_data']['profile']['list_changeData'].items()
+            if key.startswith('data_')
         ]
         self.data_rotator = DataRotator(auth_data_list)
 
