@@ -13,6 +13,6 @@ class RateLimiter:
     
     def get_rate_limit(self):
         len_data_keys = len(self.get_data_keys())
-        rate_limit_tweet = 18 / len_data_keys
-        rate_limit_profile = 6 / len_data_keys
+        rate_limit_tweet = 18 / len_data_keys - 0.6
+        rate_limit_profile = 6 / len_data_keys - 0.2
         return rate_limit_tweet, rate_limit_profile

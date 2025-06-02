@@ -27,6 +27,9 @@ async def main():
     print("Starting monitoring...")
     thread_manager.start()
 
+    # Add rate limit notification state
+    rate_limit_notified = False
+
     try:
         while True:
             try:
@@ -35,33 +38,38 @@ async def main():
 
                 if tweets:
                     print(f"\nFound {len(tweets)} new tweets")
-                    for tweet in tweets:  # Не потрібен reversed() бо твіти вже відсортовані
+                    for tweet in tweets:
                         message = (
-                            f"🐦 Новий твіт від @{data['request_data']['profile']['variables_userByScreenName']['screen_name']}:\n\n"
+                            f"🐦 A new tweet from @{data['request_data']['profile']['variables_userByScreenName']['screen_name']}:\n\n"
                             f"{tweet['text']}\n\n"
-                            f"🔗 {tweet['link']}"
+                            f"🔗 {tweet['link']}\n\n"
+                            f"🕒 Created at : {tweet['created_at']}"
                         )
                         sent = await telegram_handler.send_message(message)
                         if sent:
                             print(f"Tweet sent successfully: {tweet['id']}")
-                            await asyncio.sleep(2)
                         else:
                             print(f"Failed to send tweet: {tweet['id']}")
 
                 if profile_data:
-                    # Process profile changes
                     current_time = profile_data['current_time']
                     
                     if profile_data['status'] == 'error':
                         if profile_data.get('code') == 429:
                             print(f"[{current_time}] Rate limit reached (429). Waiting...")
+                            if not rate_limit_notified:
+                                await telegram_handler.send_message("⚠️ Досягнуто ліміт запитів (429). Моніторинг буде продовжено автоматично після відновлення доступу.")
+                                rate_limit_notified = True
                             await asyncio.sleep(5)
                             continue
-                            
+                        
                         print(f"[{current_time}] ❌ Помилка: {profile_data.get('code', 'Unknown error')}")
                         if profile_data.get('code', 500) >= 500:
                             await asyncio.sleep(5)
                         continue
+                    
+                    # Reset rate limit notification state when successful
+                    rate_limit_notified = False
                     
                     # Debug logging
                     print(f"\n[{current_time}] Перевірка профілю:")
