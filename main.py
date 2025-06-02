@@ -5,6 +5,7 @@ from user_state import UserState
 from telegram_handler import TelegramHandler
 from twitter_profile import TwitterProfile
 from thread_manager import ThreadManager
+from rate_limiter import RateLimiter
  
 async def main():
     # Initialize components
@@ -13,10 +14,15 @@ async def main():
     tweet_handler = TweetHandler(data)  # Pass config data
     twitter_profile = TwitterProfile(data)
     thread_manager = ThreadManager()
+    limeter = RateLimiter()
+
+    limiter_tweet, limeter_profile = limeter.get_rate_limit()
+    print(f"Rate limit for tweets: {limiter_tweet} seconds")
+    print(f"Rate limit for profile: {limeter_profile} seconds")
 
     # Add workers to thread manager with correct method names
-    thread_manager.add_worker("tweets", tweet_handler.get_latest_tweets, interval=2.5)
-    thread_manager.add_worker("profile", twitter_profile.check_profile, interval=1)
+    thread_manager.add_worker("tweets", tweet_handler.get_latest_tweets, interval=limiter_tweet)
+    thread_manager.add_worker("profile", twitter_profile.check_profile, interval=limeter_profile)
 
     print("Starting monitoring...")
     thread_manager.start()
@@ -31,10 +37,9 @@ async def main():
                     print(f"\nFound {len(tweets)} new tweets")
                     for tweet in tweets:  # Не потрібен reversed() бо твіти вже відсортовані
                         message = (
-                            f"🐦 New tweet from @{data['request_data']['profile']['variables_userByScreenName']['screen_name']}:\n\n"
+                            f"🐦 Новий твіт від @{data['request_data']['profile']['variables_userByScreenName']['screen_name']}:\n\n"
                             f"{tweet['text']}\n\n"
                             f"🔗 {tweet['link']}"
-                            f"\n\n🕒 Created at : {tweet['created_at']}\n"
                         )
                         sent = await telegram_handler.send_message(message)
                         if sent:

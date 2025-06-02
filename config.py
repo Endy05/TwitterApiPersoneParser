@@ -5,9 +5,8 @@ load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
-USER_ID = "1647171304192196610"
-SCREEN_NAME = "andytrotw"
-INTERVAL = 2.5
+USER_ID = os.getenv("USER_ID")
+SCREEN_NAME = os.getenv("SCREEN_NAME")
 
 data = {
     "request_data": {
@@ -116,6 +115,7 @@ data = {
                     "headers" : {
                         "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
                         "Content-Type": "application/json",
+                        #change csrf token
                         "x-csrf-token": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
                         "x-twitter-active-user": "yes",
                         "x-twitter-auth-type": "OAuth2Session",
@@ -126,6 +126,7 @@ data = {
                     },
 
                     "cookies" : {
+                        #change auth token, ct0 and guest id
                         "auth_token": "6de1191e6f33fbbca2482bd35942db8ce02b5758",
                         "ct0": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
                         "guest_id": "v1:3A174872376999050580",
