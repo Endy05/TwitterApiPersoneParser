@@ -91,6 +91,8 @@ data = {
                         "ct0": os.getenv("TWITTER_CSRF_TOKEN"),
                         "guest_id": os.getenv("TWITTER_GUEST_ID"),
                     },
+
+                    "proxy": {"http": "socks5h://parserdex:Lma6gNnbeu@193.124.16.84:50101", "https":"socks5h://parserdex:Lma6gNnbeu@193.124.16.84:50101"}
                 },
                 "data_2" : {
                     "headers" : {
@@ -110,6 +112,8 @@ data = {
                         "ct0": "64e4c9cd7585313b80d3abbbf565a5661a9dd09e69a64dcccb0e406340ae988d1b2522e3a0abe21a8b9ce1dd6a3d6bf577e015acc36043e15068c54cafe14c217cbf60948f4fb57592453f1bcef7111c",
                         "guest_id": "v1:3A174880487789877171",
                     },
+
+                    "proxy": None
                 },
                 "data_3" : {
                     "headers" : {
@@ -131,6 +135,8 @@ data = {
                         "ct0": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
                         "guest_id": "v1:3A174872376999050580",
                     },
+
+                    "proxy": None
                 }
             }
         }

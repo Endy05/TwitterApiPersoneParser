@@ -38,13 +38,18 @@ class TweetHandler:
         """Thread-safe method for getting latest tweets"""
         try:
             current_time = datetime.now().strftime("%H:%M:%S")
-            auth_data, auth_id = self.data_rotator.get_next()
+            auth_data, auth_id, proxy_info = self.data_rotator.get_next()
             
-            response = requests.get(self.url, headers=auth_data['headers'], 
-                                 cookies=auth_data['cookies'], params=self.params)
+            response = requests.get(
+                self.url,
+                headers=auth_data['headers'],
+                cookies=auth_data['cookies'],
+                params=self.params,
+                proxies=auth_data.get('proxy', None)
+            )
             
             if response.status_code == 200:
-                print(f"[{current_time}] Tweets received ({auth_id})")
+                print(f"[{current_time}] {proxy_info} Tweets received ({auth_id})")
                 tweets_data = response.json()
                 instructions = tweets_data['data']['user']['result']['timeline']['timeline']['instructions']
                 entries = []
@@ -91,7 +96,7 @@ class TweetHandler:
                 return new_tweets
                 
             else:
-                print(f"Error getting tweets: {response.status_code} ({auth_id})")
+                print(f"[{current_time}] {proxy_info} Error getting tweets: {response.status_code} ({auth_id})")
                 return []
         except Exception as e:
             print(f"Exception in get_latest_tweets: {e}")

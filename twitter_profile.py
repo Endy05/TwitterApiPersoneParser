@@ -31,13 +31,18 @@ class TwitterProfile:
         """Non-async version for thread usage"""
         try:
             current_time = datetime.now().strftime("%H:%M:%S")
-            auth_data, auth_id = self.data_rotator.get_next()
+            auth_data, auth_id, proxy_info = self.data_rotator.get_next()
             
-            response = requests.get(self.url, headers=auth_data['headers'], 
-                                 cookies=auth_data['cookies'], params=self.params)
+            response = requests.get(
+                self.url,
+                headers=auth_data['headers'],
+                cookies=auth_data['cookies'],
+                params=self.params,
+                proxies=auth_data.get('proxy', None)
+            )
             
             if response.ok:
-                print(f"[{current_time}] Profile received ({auth_id})")
+                print(f"[{current_time}] {proxy_info} Profile received ({auth_id})")
                 data = response.json()
                 user = data["data"]["user"]["result"]
                 return {
