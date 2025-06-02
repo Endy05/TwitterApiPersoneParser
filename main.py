@@ -5,7 +5,6 @@ from user_state import UserState
 from telegram_handler import TelegramHandler
 from twitter_profile import TwitterProfile
 from thread_manager import ThreadManager
-from config import INTERVAL
  
 async def main():
     # Initialize components
@@ -16,7 +15,7 @@ async def main():
     thread_manager = ThreadManager()
 
     # Add workers to thread manager with correct method names
-    thread_manager.add_worker("tweets", tweet_handler.get_latest_tweets, interval=3)
+    thread_manager.add_worker("tweets", tweet_handler.get_latest_tweets, interval=2.5)
     thread_manager.add_worker("profile", twitter_profile.check_profile, interval=1)
 
     print("Starting monitoring...")
@@ -32,9 +31,10 @@ async def main():
                     print(f"\nFound {len(tweets)} new tweets")
                     for tweet in tweets:  # Не потрібен reversed() бо твіти вже відсортовані
                         message = (
-                            f"🐦 Новий твіт від @{data['request_data']['profile']['variables_userByScreenName']['screen_name']}:\n\n"
+                            f"🐦 New tweet from @{data['request_data']['profile']['variables_userByScreenName']['screen_name']}:\n\n"
                             f"{tweet['text']}\n\n"
                             f"🔗 {tweet['link']}"
+                            f"\n\n🕒 Created at : {tweet['created_at']}\n"
                         )
                         sent = await telegram_handler.send_message(message)
                         if sent:

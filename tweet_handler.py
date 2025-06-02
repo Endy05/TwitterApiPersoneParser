@@ -70,11 +70,13 @@ class TweetHandler:
                             # Перевіряємо чи твіт новіший за останній відомий
                             if self.last_tweet_id and int(tweet_id) > int(self.last_tweet_id):
                                 tweet_text = tweet_data['legacy']['full_text']
+                                tweet_time = tweet_data['legacy']['created_at']  # Changed from core to legacy
                                 tweet_link = f"https://twitter.com/andytrotw/status/{tweet_id}"
                                 
                                 new_tweets.append({
                                     'id': tweet_id,
                                     'text': tweet_text,
+                                    'created_at': tweet_time,
                                     'link': tweet_link
                                 })
                                 

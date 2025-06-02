@@ -26,8 +26,6 @@ class UserState:
                 f"Profile: {profile_url}"
             )
         if self.name != new_name:
-            changes.append(f"NAME CHANGING\n\n{self.name} ➜ {new_name}")
-        if self.username != new_username:
-            changes.append(f"USERNAME CHANGING\n\n@{self.username} ➜ @{new_username}")
+            changes.append(f"NAME CHANGING\n\n{self.name} ➜ {new_name}\n\nProfile: {profile_url}")
         
         return changes
