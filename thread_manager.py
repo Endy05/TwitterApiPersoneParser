@@ -1,32 +1,39 @@
-import threading
 from queue import Queue
 from typing import Dict, Any, Callable
-import time
 from datetime import datetime
+import threading
+import time
 
 class ThreadManager:
     def __init__(self):
         self.threads: Dict[str, threading.Thread] = {}
         self.queues: Dict[str, Queue] = {}
         self.running = False
-        self.loop = None
+        self.last_run: Dict[str, float] = {}
 
-    def add_worker(self, name: str, worker_func: Callable, interval: int = 5):
+    def add_worker(self, name: str, worker_func: Callable, interval: float = 5):
         """Add a new worker thread"""
         queue = Queue()
         self.queues[name] = queue
+        self.last_run[name] = 0
 
         def worker_wrapper():
             while self.running:
+                current_time = time.time()
+                time_since_last_run = current_time - self.last_run[name]
+                
+                # Wait for the exact interval
+                if time_since_last_run < interval:
+                    time.sleep(interval - time_since_last_run)
+                
                 try:
                     result = worker_func()
-                    if result:  # Only log if we got actual results
-                        current_time = datetime.now().strftime("%H:%M:%S")
-                        print(f"[{current_time}] {name.capitalize()} received")
-                    queue.put(result)
+                    if result:
+                        self.queues[name].put(result)
                 except Exception as e:
-                    print(f"Error in {name} thread: {e}")
-                time.sleep(interval)
+                    print(f"Error in worker {name}: {e}")
+                
+                self.last_run[name] = time.time()
 
         thread = threading.Thread(target=worker_wrapper, name=name, daemon=True)
         self.threads[name] = thread
