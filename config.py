@@ -94,50 +94,7 @@ data = {
 
                     "proxy": {"http": "socks5h://parserdex:Lma6gNnbeu@193.124.16.84:50101", "https":"socks5h://parserdex:Lma6gNnbeu@193.124.16.84:50101"}
                 },
-                "data_2" : {
-                    "headers" : {
-                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-                        "Content-Type": "application/json",
-                        "x-csrf-token": "64e4c9cd7585313b80d3abbbf565a5661a9dd09e69a64dcccb0e406340ae988d1b2522e3a0abe21a8b9ce1dd6a3d6bf577e015acc36043e15068c54cafe14c217cbf60948f4fb57592453f1bcef7111c",
-                        "x-twitter-active-user": "yes",
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "x-twitter-client-language": "uk",
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                        "accept-language": "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7",
-                        "referer": "https://x.com/"
-                    },
-
-                    "cookies" : {
-                        "auth_token": "6fe31d14251d275b878266c85e1a32f8402ffdbd",
-                        "ct0": "64e4c9cd7585313b80d3abbbf565a5661a9dd09e69a64dcccb0e406340ae988d1b2522e3a0abe21a8b9ce1dd6a3d6bf577e015acc36043e15068c54cafe14c217cbf60948f4fb57592453f1bcef7111c",
-                        "guest_id": "v1:3A174880487789877171",
-                    },
-
-                    "proxy": None
-                },
-                "data_3" : {
-                    "headers" : {
-                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-                        "Content-Type": "application/json",
-                        #change csrf token
-                        "x-csrf-token": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
-                        "x-twitter-active-user": "yes",
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "x-twitter-client-language": "uk",
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-                        "accept-language": "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7",
-                        "referer": "https://x.com/"
-                    },
-
-                    "cookies" : {
-                        #change auth token, ct0 and guest id
-                        "auth_token": "6de1191e6f33fbbca2482bd35942db8ce02b5758",
-                        "ct0": "e772ad3433607d289ec34b545215408a1fd4be4af4ad37c6a2b8c08918f9b448efd81c28424265e12c57f8350e83680fcdee2a17559c87b1cd28414609d273f2bd473ef31ce4846d47546c7ceed3bb5d",
-                        "guest_id": "v1:3A174872376999050580",
-                    },
-
-                    "proxy": None
-                }
+                
             }
         }
     }
